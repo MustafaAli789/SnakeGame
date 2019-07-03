@@ -3,14 +3,27 @@
 <head>
 	<title>Snake Game</title>
 	<style type="text/css">
-		body{
+		body, html{
 			margin: 0;
 			padding: 0;
+			height: 100%;
+		}
+		#gameBoard{
+			border: 2px solid black;
+			align-self: center;
+		}
+		.container{
+			display: flex;
+			justify-content: center;
+			height: 100%;
 		}
 	</style>
 </head>
 <body>
-	<h1>Snake Game</h1>
-	<canvas id="gameBoard" style="border: 2px solid black"></canvas>
+	<!-- <h1>Snake Game</h1> -->
+	<div class="container">
+		<canvas id="gameBoard"></canvas>
+	</div>
+	<script type="text/javascript" src="Snake.js"></script>
 </body>
 </html>
