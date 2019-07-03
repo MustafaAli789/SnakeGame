@@ -25,15 +25,17 @@ function drawSnake(){
 		if(blockNum===0){color = "red";} //the head of the snake
 		ctx.fillStyle = color;
 		ctx.fillRect(snake.x, snake.y, gridSize, gridSize);
+		ctx.strokeStyle = "black";
+		ctx.strokeRect(snake.x, snake.y, gridSize, gridSize)
 	});
 }
 
 //removing tail and putting it at the head to simulate movement
 function updateSnake(){
-	playerX = snakeTrail[0].x +velocityX*gridSize;
-	playerY = snakeTrail[0].y -velocityY*gridSize;
+	playerX = snakeTrail[0].x + velocityX*gridSize;
+	playerY = snakeTrail[0].y - velocityY*gridSize;
 	snakeTrail.pop();
-	snakeTrail.push(new Snake(playerX, playerY));
+	snakeTrail.unshift(new Snake(playerX, playerY));
 }
 
 function clearBoard(){
@@ -51,19 +53,48 @@ function drawGrid(){
 }
 
 function drawApple(){
-	ctx.beginPath(); //off shift is needed below in order to center apple in grid
-    ctx.arc(appleX-gridSize/2, appleY-gridSize/2, Math.floor(gridSize/2)-1, 0, 2 * Math.PI, false);
-    ctx.fillStyle = 'green';
-    ctx.fill();
+	ctx.fillStyle = "orange";
+	ctx.fillRect(appleX, appleY, gridSize, gridSize);
     
 }
+
 
 function draw(){
 	clearBoard();
 	drawGrid();
 	updateSnake();
+
+	if(playerX===appleX && playerY===appleY){
+		snakeTrail.unshift(new Snake(appleX, appleY));
+		appleX = Math.floor(Math.random()*20+1)*gridSize;
+		appleY = Math.floor(Math.random()*20)*gridSize;
+	}
+
+	if(playerX>=tileCount*gridSize){
+		snakeTrail[0].x = 0;
+	} else if(playerX < 0){
+		snakeTrail[0].x = tileCount*gridSize;
+	}
+
+	if(playerY>=tileCount*gridSize){
+		snakeTrail[0].y = 0;
+	} else if(playerY < 0){
+		snakeTrail[0].y = tileCount*gridSize;
+	}
+
+	/*for(var i =1; i<snakeTrail.length; i++){
+		if(snakeTrail[0].x===snakeTrail[i].x && snakeTrail[0].y===snakeTrail[i].y){
+			debugger;
+			let oldHeadX = snakeTrail[0].x;
+			let oldHeadY = snakeTrail[0].y;
+			snakeTrail.length=0;
+			snakeTrail.push(new Snake(oldHeadX, oldHeadY))
+		}
+	}*/
+
 	drawSnake();
 	drawApple();
+
 }
 
 window.addEventListener("keydown", (event)=>{
@@ -86,6 +117,6 @@ window.addEventListener("keydown", (event)=>{
 	}
 });
 
-setInterval(draw, 1000/20);
+setInterval(draw, 1000/10);
 
 
