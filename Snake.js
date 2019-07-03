@@ -58,6 +58,17 @@ function drawApple(){
     
 }
 
+function addSnakeToFront(){
+	if(velocityX===1){
+		snakeTrail.unshift(new Snake(appleX+gridSize, appleY));
+	} else if(velocityX===-1){
+		snakeTrail.unshift(new Snake(appleX-gridSize, appleY));
+	} else if(velocityY === 1){
+		snakeTrail.unshift(new Snake(appleX, appleY-gridSize));
+	} else if(velocityY===-1){
+		snakeTrail.unshift(new Snake(appleX, appleY+gridSize));
+	}
+}
 
 function draw(){
 	clearBoard();
@@ -65,7 +76,7 @@ function draw(){
 	updateSnake();
 
 	if(playerX===appleX && playerY===appleY){
-		snakeTrail.unshift(new Snake(appleX, appleY));
+		addSnakeToFront();
 		appleX = Math.floor(Math.random()*20+1)*gridSize;
 		appleY = Math.floor(Math.random()*20)*gridSize;
 	}
@@ -82,15 +93,15 @@ function draw(){
 		snakeTrail[0].y = tileCount*gridSize;
 	}
 
-	/*for(var i =1; i<snakeTrail.length; i++){
+	for(var i =1; i<snakeTrail.length; i++){
 		if(snakeTrail[0].x===snakeTrail[i].x && snakeTrail[0].y===snakeTrail[i].y){
-			debugger;
+			
 			let oldHeadX = snakeTrail[0].x;
 			let oldHeadY = snakeTrail[0].y;
 			snakeTrail.length=0;
 			snakeTrail.push(new Snake(oldHeadX, oldHeadY))
 		}
-	}*/
+	}
 
 	drawSnake();
 	drawApple();
