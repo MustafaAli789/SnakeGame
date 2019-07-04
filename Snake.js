@@ -4,6 +4,7 @@ const ctx = canvas.getContext("2d");
 const toggleGridButton = document.querySelector("#removeGrid");
 const toggleWrapButton = document.querySelector("#toggleWrap");
 const scoreLabel = document.querySelector(".score");
+const tileSlider = document.querySelector("#tileSlider");
 let tileCount = 20;
 let gridSize = 500/tileCount;
 let playerX = playerY = Math.floor(tileCount/2*gridSize);
@@ -12,7 +13,8 @@ let gridVisible = 1;
 let wrapToggle = 1;
 let score=1;
 
-let appleX = appleY = 100;
+let appleX = Math.floor(tileCount/2*gridSize);
+let	appleY = gridSize*3;
 
 const Snake = function(x, y){
 	this.x = x; this.y=y;
@@ -112,7 +114,6 @@ function draw(){
 	if(playerX===appleX && playerY===appleY){
 		addSnakeToFront();
 		setApplePosition();
-		debugger;
 		scoreLabel.textContent = score;
 		score++;
 	}
@@ -150,8 +151,6 @@ function draw(){
 		}
 	}
 
-
-
 	drawSnake();
 	drawApple();
 
@@ -185,6 +184,16 @@ toggleWrapButton.addEventListener("click", ()=>{
 	wrapToggle*=-1;
 	wrapToggle===1 ? canvas.style.border="2px solid black" : canvas.style.border="5px solid red";
 });
+
+
+tileSlider.oninput = function(){
+	tileCount = this.value;
+	gridSize = 500/tileCount;
+	playerX = playerY = Math.floor(tileCount/2*gridSize);
+	appleX = Math.floor(tileCount/2*gridSize);
+	appleY = gridSize*3;
+
+}
 
 setInterval(draw, 1000/15);
 
