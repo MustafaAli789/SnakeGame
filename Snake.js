@@ -3,12 +3,14 @@ const canvas = document.querySelector("#gameBoard");
 const ctx = canvas.getContext("2d");
 const toggleGridButton = document.querySelector("#removeGrid");
 const toggleWrapButton = document.querySelector("#toggleWrap");
+const scoreLabel = document.querySelector(".score");
 let tileCount = 20;
 let gridSize = 500/tileCount;
 let playerX = playerY = Math.floor(tileCount/2*gridSize);
 let velocityX = velocityY = 0;
 let gridVisible = 1;
 let wrapToggle = 1;
+let score=1;
 
 let appleX = appleY = 100;
 
@@ -97,6 +99,8 @@ function restart(){
 	snakeTrail.push(new Snake(oldHeadX, oldHeadY));
 	snakeTrail[0].x=snakeTrail[0].y=Math.floor(tileCount/2*gridSize);
 	velocityX=velocityY=0;
+	score=1;
+	scoreLabel.textContent=0;
 }
 
 function draw(){
@@ -104,9 +108,13 @@ function draw(){
 	if(gridVisible===1){drawGrid();}
 	updateSnake();
 
+	//hitting apple
 	if(playerX===appleX && playerY===appleY){
 		addSnakeToFront();
 		setApplePosition();
+		debugger;
+		scoreLabel.textContent = score;
+		score++;
 	}
 
 	if (wrapToggle===1) {

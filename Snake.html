@@ -2,6 +2,7 @@
 <html>
 <head>
 	<title>Snake Game</title>
+	<link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
 	<style type="text/css">
 		body, html{
 			margin: 0;
@@ -15,9 +16,21 @@
 			display: flex;
 			justify-content: center;
 		}
-		h1{
+		.title{
 			text-align: center;
-			margin: 10px;
+			font-family: 'Roboto', sans-serif;
+			font-weight: 700;
+			grid-column-start: 2;
+		}
+		.score{
+			text-align: center;
+			font-family: 'Roboto', sans-serif;
+			font-weight: 400;
+			grid-column-start: 3;
+		}
+		.header{
+			display: grid;
+			grid-template-columns: 1fr 250px 50px 1fr;
 		}
 		.controls{
 			display: flex;
@@ -26,7 +39,11 @@
 	</style>
 </head>
 <body>
-	<h1>Snake Game</h1>
+	<div class="header">
+		<h1 class="title">Snake Game</h1>
+		<h1 class="score">0</h1>	
+	</div>
+	
 	<div class="container">
 		<canvas id="gameBoard"></canvas>
 	</div>
