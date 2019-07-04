@@ -6,7 +6,6 @@
 		body, html{
 			margin: 0;
 			padding: 0;
-			height: 100%;
 		}
 		#gameBoard{
 			border: 2px solid black;
@@ -15,15 +14,27 @@
 		.container{
 			display: flex;
 			justify-content: center;
-			height: 100%;
+		}
+		h1{
+			text-align: center;
+			margin: 10px;
+		}
+		.controls{
+			display: flex;
+			justify-content: center;
 		}
 	</style>
 </head>
 <body>
-	<!-- <h1>Snake Game</h1> -->
+	<h1>Snake Game</h1>
 	<div class="container">
 		<canvas id="gameBoard"></canvas>
 	</div>
+	<div class="controls">
+		<button id="removeGrid">Grid Toggle</button>
+		<button id="toggleWrap">Wrap Toggle</button>
+	</div>
+	
 	<script type="text/javascript" src="Snake.js"></script>
 </body>
 </html>

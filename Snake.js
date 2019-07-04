@@ -1,10 +1,14 @@
 
 const canvas = document.querySelector("#gameBoard");
 const ctx = canvas.getContext("2d");
-const gridSize = 500/20;
-const tileCount = 20;
+const toggleGridButton = document.querySelector("#removeGrid");
+const toggleWrapButton = document.querySelector("#toggleWrap");
+let tileCount = 20;
+let gridSize = 500/tileCount;
 let playerX = playerY = Math.floor(tileCount/2*gridSize);
 let velocityX = velocityY = 0;
+let gridVisible = 1;
+let wrapToggle = 1;
 
 let appleX = appleY = 100;
 
@@ -45,8 +49,8 @@ function clearBoard(){
 function drawGrid(){
 	//building grid
 	ctx.strokeStyle =  "rgba(0, 0, 255, 0.1)";
-	for(var i =0; i<20; i++){
-		for(var j = 0; j<20; j++){
+	for(var i =0; i<tileCount; i++){
+		for(var j = 0; j<tileCount; j++){
 			ctx.strokeRect(0+gridSize*j, 0+gridSize*i, gridSize, gridSize);
 		}
 	}
@@ -70,38 +74,75 @@ function addSnakeToFront(){
 	}
 }
 
+function setApplePosition(){
+
+	var appleInSnake = true;
+
+	while(appleInSnake){
+		appleX = Math.floor(Math.random()*tileCount)*gridSize;
+		appleY = Math.floor(Math.random()*tileCount)*gridSize;
+		appleInSnake = false;
+		snakeTrail.forEach((snakeElement)=>{
+			if(snakeElement.x===appleX && snakeElement.y===appleY){
+				appleInSnake=true;
+			}
+		})
+	}	
+}
+
+function restart(){
+	let oldHeadX = snakeTrail[0].x;
+	let oldHeadY = snakeTrail[0].y;
+	snakeTrail.length=0;
+	snakeTrail.push(new Snake(oldHeadX, oldHeadY));
+	snakeTrail[0].x=snakeTrail[0].y=Math.floor(tileCount/2*gridSize);
+	velocityX=velocityY=0;
+}
+
 function draw(){
 	clearBoard();
-	drawGrid();
+	if(gridVisible===1){drawGrid();}
 	updateSnake();
 
 	if(playerX===appleX && playerY===appleY){
 		addSnakeToFront();
-		appleX = Math.floor(Math.random()*20+1)*gridSize;
-		appleY = Math.floor(Math.random()*20)*gridSize;
+		setApplePosition();
 	}
 
-	if(playerX>=tileCount*gridSize){
-		snakeTrail[0].x = 0;
-	} else if(playerX < 0){
-		snakeTrail[0].x = tileCount*gridSize;
-	}
+	if (wrapToggle===1) {
 
-	if(playerY>=tileCount*gridSize){
-		snakeTrail[0].y = 0;
-	} else if(playerY < 0){
-		snakeTrail[0].y = tileCount*gridSize;
-	}
+ 		//wraping horizontally
+		if(playerX>=tileCount*gridSize){
+			snakeTrail[0].x = 0;
+		} else if(playerX < 0){
+			snakeTrail[0].x = tileCount*gridSize;
+		}
+	
+		//wrapping vertically
+		if(playerY>=tileCount*gridSize){
+			snakeTrail[0].y = 0;
+		} else if(playerY < 0){
+			snakeTrail[0].y = tileCount*gridSize;
+		}
 
+ 	}
+
+ 	//eating itself 
 	for(var i =1; i<snakeTrail.length; i++){
 		if(snakeTrail[0].x===snakeTrail[i].x && snakeTrail[0].y===snakeTrail[i].y){
-			
-			let oldHeadX = snakeTrail[0].x;
-			let oldHeadY = snakeTrail[0].y;
-			snakeTrail.length=0;
-			snakeTrail.push(new Snake(oldHeadX, oldHeadY))
+			restart();
+			break;
 		}
 	}
+
+	//hitting wall when no wrap enabled
+	if(wrapToggle===-1){
+		if(playerX>=tileCount*gridSize || playerX<0 || playerY>=tileCount*gridSize || playerY<0){
+			restart();
+		}
+	}
+
+
 
 	drawSnake();
 	drawApple();
@@ -109,25 +150,34 @@ function draw(){
 }
 
 window.addEventListener("keydown", (event)=>{
-	if(event.which===37 && velocityX!=1){ //left key
+	if((event.which===37 || event.which===65) && velocityX!=1){ //left key
 		velocityX = -1;
 		velocityY = 0;
 		console.log("left");
-	} else if(event.which===38 && velocityY!=-1){ //up key
+	} else if((event.which===38 || event.which===87) && velocityY!=-1){ //up key
 		velocityY = 1;
 		velocityX = 0;
 		console.log("up");
-	} else if(event.which===39 && velocityX!=-1){ //right key
+	} else if((event.which===39 || event.which===68) && velocityX!=-1){ //right key
 		velocityX = 1;
 		velocityY = 0;
 		console.log("right");
-	} else if(event.which===40 && velocityY!=1){
+	} else if((event.which===40 || event.which===83) && velocityY!=1){
 		velocityY = -1;
 		velocityX = 0;
 		console.log("down");
 	}
 });
 
-setInterval(draw, 1000/10);
+toggleGridButton.addEventListener("click", ()=>{
+	gridVisible*=-1;
+});
+
+toggleWrapButton.addEventListener("click", ()=>{
+	wrapToggle*=-1;
+	wrapToggle===1 ? canvas.style.border="2px solid black" : canvas.style.border="5px solid red";
+});
+
+setInterval(draw, 1000/15);
 
 
