@@ -15,12 +15,14 @@
 		.container{
 			display: flex;
 			justify-content: center;
+			grid-column-start: 2;
 		}
 		.title{
 			text-align: center;
 			font-family: 'Roboto', sans-serif;
 			font-weight: 700;
 			grid-column-start: 2;
+			margin-top: 5px;
 		}
 		.score{
 			text-align: center;
@@ -28,29 +30,31 @@
 			font-weight: 400;
 			grid-column-start: 3;
 		}
-		.header{
+		.gameContainer{
 			display: grid;
-			grid-template-columns: 1fr 250px 50px 1fr;
+			grid-template-columns: 1fr 500px 1fr;
+			grid-template-rows: 50px 500px 50px;
 		}
 		.controls{
 			display: flex;
 			justify-content: center;
+			grid-row-start: 3;
+			grid-column-start: 2;
 		}
 	</style>
 </head>
 <body>
-	<div class="header">
+	<div class="gameContainer">
 		<h1 class="title">Snake Game</h1>
-		<h1 class="score">0</h1>	
-	</div>
-	
-	<div class="container">
-		<canvas id="gameBoard"></canvas>
-	</div>
-	<div class="controls">
-		<button id="removeGrid">Grid Toggle</button>
-		<button id="toggleWrap">Wrap Toggle</button>
-		<input type="range" min="10" max="50" step="2" value="20" class="slider" id="tileSlider">
+		<h1 class="score">0</h1>		
+		<div class="container">
+			<canvas id="gameBoard"></canvas>
+		</div>
+		<div class="controls">
+			<button id="removeGrid">Grid Toggle</button>
+			<button id="toggleWrap">Wrap Toggle</button>
+			<input type="range" min="10" max="50" step="2" value="20" class="slider" id="tileSlider">
+		</div>
 	</div>
 	
 	<script type="text/javascript" src="Snake.js"></script>

@@ -5,16 +5,16 @@ const toggleGridButton = document.querySelector("#removeGrid");
 const toggleWrapButton = document.querySelector("#toggleWrap");
 const scoreLabel = document.querySelector(".score");
 const tileSlider = document.querySelector("#tileSlider");
-let tileCount = 20;
-let gridSize = 500/tileCount;
-let playerX = playerY = Math.floor(tileCount/2*gridSize);
+let tileCount = 17;
+let gridSize = Math.floor(500/tileCount); //the px will be rounded down if decimal
+let playerX = playerY = Math.ceil((500/2)/gridSize)*gridSize;
 let velocityX = velocityY = 0;
 let gridVisible = 1;
 let wrapToggle = 1;
 let score=1;
 
-let appleX = Math.floor(tileCount/2*gridSize);
-let	appleY = gridSize*3;
+let appleX = Math.ceil((500/2)/gridSize)*gridSize;
+let	appleY = Math.ceil((500/3)/gridSize)*gridSize;
 
 const Snake = function(x, y){
 	this.x = x; this.y=y;
@@ -23,8 +23,8 @@ const Snake = function(x, y){
 let snakeTrail = [new Snake(playerX, playerY)];
 
 window.addEventListener("load", ()=>{
-	canvas.height = 500;
-	canvas.width =  500;
+	canvas.height = gridSize*tileCount;
+	canvas.width =  gridSize*tileCount;
 });
 
 function drawSnake(){
@@ -186,14 +186,18 @@ toggleWrapButton.addEventListener("click", ()=>{
 });
 
 
-tileSlider.oninput = function(){
+/*tileSlider.oninput = function(){
 	tileCount = this.value;
-	gridSize = 500/tileCount;
-	playerX = playerY = Math.floor(tileCount/2*gridSize);
-	appleX = Math.floor(tileCount/2*gridSize);
-	appleY = gridSize*3;
-
-}
+	gridSize = Math.floor(500/tileCount);
+	canvas.height = gridSize*tileCount;
+	canvas.width =  gridSize*tileCount;
+	console.log("Before", playerX, playerY, appleX, appleY, gridSize, tileCount);
+	playerX = Math.floor(playerX/gridSize)*gridSize;
+	playerY = Math.floor(playerY/gridSize)*gridSize;
+	appleX = Math.floor(appleX/gridSize)*gridSize;
+	appleY = Math.floor(appleY/gridSize)*gridSize;
+	console.log("After", playerX, playerY, appleX, appleY, gridSize, tileCount);
+}*/
 
 setInterval(draw, 1000/15);
 
