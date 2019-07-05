@@ -4,7 +4,7 @@ const ctx = canvas.getContext("2d");
 const toggleGridButton = document.querySelector("#removeGrid");
 const toggleWrapButton = document.querySelector("#toggleWrap");
 const scoreLabel = document.querySelector(".score");
-const tileSlider = document.querySelector("#tileSlider");
+const speedSlider = document.querySelector("#speedSlider");
 let tileCount = 17;
 let gridSize = Math.floor(500/tileCount); //the px will be rounded down if decimal
 let playerX = playerY = Math.ceil((500/2)/gridSize)*gridSize;
@@ -12,6 +12,7 @@ let velocityX = velocityY = 0;
 let gridVisible = 1;
 let wrapToggle = 1;
 let score=1;
+let speed = 10;
 
 let appleX = Math.ceil((500/2)/gridSize)*gridSize;
 let	appleY = Math.ceil((500/3)/gridSize)*gridSize;
@@ -185,20 +186,6 @@ toggleWrapButton.addEventListener("click", ()=>{
 	wrapToggle===1 ? canvas.style.border="2px solid black" : canvas.style.border="5px solid red";
 });
 
-
-/*tileSlider.oninput = function(){
-	tileCount = this.value;
-	gridSize = Math.floor(500/tileCount);
-	canvas.height = gridSize*tileCount;
-	canvas.width =  gridSize*tileCount;
-	console.log("Before", playerX, playerY, appleX, appleY, gridSize, tileCount);
-	playerX = Math.floor(playerX/gridSize)*gridSize;
-	playerY = Math.floor(playerY/gridSize)*gridSize;
-	appleX = Math.floor(appleX/gridSize)*gridSize;
-	appleY = Math.floor(appleY/gridSize)*gridSize;
-	console.log("After", playerX, playerY, appleX, appleY, gridSize, tileCount);
-}*/
-
-setInterval(draw, 1000/15);
+setInterval(draw, 1000/speed);
 
 
